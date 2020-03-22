@@ -3,6 +3,14 @@
 #include "FFDemux.h"
 #include "XLog.h"
 
+class TestObs:public IObserver
+{
+public:
+    void Update(XData d) {
+        XLOGI("TestObs Update data size is %d",d.size);
+    }
+};
+
 extern "C" JNIEXPORT jstring JNICALL
 Java_xplay_ffmpeg_MainActivity_stringFromJNI(
         JNIEnv* env,
@@ -10,7 +18,9 @@ Java_xplay_ffmpeg_MainActivity_stringFromJNI(
     std::string hello = "Hello from C++";
     ////////////////////////////////
     //测试用代码
+    TestObs *tobs = new TestObs();
     IDemux *de = new FFDemux();
+    de->AddObs(tobs);
     de->Open("/sdcard/test.mp4");
     de->Start();
     XSleep(3000);
