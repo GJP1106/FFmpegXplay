@@ -4,6 +4,7 @@
 #include "XLog.h"
 #include "FFDecode.h"
 #include "XEGL.h"
+#include "XShader.h"
 #include <android/native_window_jni.h>
 
 
@@ -52,4 +53,6 @@ Java_xplay_ffmpeg_XPlay_InitView(JNIEnv *env, jobject thiz, jobject surface) {
     // TODO: implement InitView()
     ANativeWindow *win = ANativeWindow_fromSurface(env, surface);
     XEGL::Get()->Init(win);
+    XShader shader;
+    shader.Init();
 }
