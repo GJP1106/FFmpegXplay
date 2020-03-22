@@ -2,12 +2,13 @@
 #include <string>
 #include "FFDemux.h"
 #include "XLog.h"
+#include "FFDecode.h"
 
 class TestObs:public IObserver
 {
 public:
     void Update(XData d) {
-        XLOGI("TestObs Update data size is %d",d.size);
+        //XLOGI("TestObs Update data size is %d",d.size);
     }
 };
 
@@ -22,6 +23,9 @@ Java_xplay_ffmpeg_MainActivity_stringFromJNI(
     IDemux *de = new FFDemux();
     de->AddObs(tobs);
     de->Open("/sdcard/test.mp4");
+
+    IDecode *vdecode = new FFDecode();
+    vdecode->Open(de->GetVPara());
     de->Start();
     XSleep(3000);
     de->Stop();
