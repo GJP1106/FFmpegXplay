@@ -21,14 +21,22 @@ Java_xplay_ffmpeg_MainActivity_stringFromJNI(
     //测试用代码
     TestObs *tobs = new TestObs();
     IDemux *de = new FFDemux();
-    de->AddObs(tobs);
+    //de->AddObs(tobs);
     de->Open("/sdcard/test.mp4");
 
     IDecode *vdecode = new FFDecode();
     vdecode->Open(de->GetVPara());
+
+    IDecode *adecode = new FFDecode();
+    adecode->Open(de->GetApara());
+    de->AddObs(vdecode);
+    de->AddObs(adecode);
     de->Start();
-    XSleep(3000);
-    de->Stop();
+    vdecode->Start();
+    adecode->Start();
+
+    //XSleep(3000);
+    //de->Stop();
     /*for(;;) {
         XData d = de->Read();
         XLOGI("Read data size is %d", d.size);
