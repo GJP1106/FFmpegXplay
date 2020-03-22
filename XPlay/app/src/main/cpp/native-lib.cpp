@@ -3,6 +3,9 @@
 #include "FFDemux.h"
 #include "XLog.h"
 #include "FFDecode.h"
+#include "XEGL.h"
+#include <android/native_window_jni.h>
+
 
 class TestObs:public IObserver
 {
@@ -42,4 +45,11 @@ Java_xplay_ffmpeg_MainActivity_stringFromJNI(
         XLOGI("Read data size is %d", d.size);
     }*/
     return env->NewStringUTF(hello.c_str());
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_xplay_ffmpeg_XPlay_InitView(JNIEnv *env, jobject thiz, jobject surface) {
+    // TODO: implement InitView()
+    ANativeWindow *win = ANativeWindow_fromSurface(env, surface);
+    XEGL::Get()->Init(win);
 }
