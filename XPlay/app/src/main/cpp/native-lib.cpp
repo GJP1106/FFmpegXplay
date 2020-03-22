@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <string>
 #include "FFDemux.h"
+#include "XLog.h"
 
 extern "C" JNIEXPORT jstring JNICALL
 Java_xplay_ffmpeg_MainActivity_stringFromJNI(
@@ -13,6 +14,7 @@ Java_xplay_ffmpeg_MainActivity_stringFromJNI(
     de->Open("/sdcard/test.mp4");
     for(;;) {
         XData d = de->Read();
+        XLOGI("Read data size is %d", d.size);
     }
     return env->NewStringUTF(hello.c_str());
 }

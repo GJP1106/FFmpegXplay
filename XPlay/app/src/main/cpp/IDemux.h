@@ -4,7 +4,7 @@
 
 #ifndef XPLAY_IDEMUX_H
 #define XPLAY_IDEMUX_H
-#include "XData.cpp"
+#include "XData.h"
 
 //解封装接口
 class IDemux {
