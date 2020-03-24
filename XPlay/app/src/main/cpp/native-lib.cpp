@@ -20,6 +20,16 @@ public:
         //XLOGI("TestObs Update data size is %d",d.size);
     }
 };
+
+extern "C"
+JNIEXPORT
+jint JNI_Onload(JavaVM *vm, void *res)
+{
+    FFDecode::InitHard(vm);
+    return JNI_VERSION_1_6;
+}
+
+
 IVideoView *view = NULL;
 
 extern "C" JNIEXPORT jstring JNICALL
@@ -35,7 +45,7 @@ Java_xplay_ffmpeg_MainActivity_stringFromJNI(
     de->Open("/sdcard/test.mp4");
 
     IDecode *vdecode = new FFDecode();
-    vdecode->Open(de->GetVPara());
+    vdecode->Open(de->GetVPara(), false);
 
     IDecode *adecode = new FFDecode();
     adecode->Open(de->GetApara());

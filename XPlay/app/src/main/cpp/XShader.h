@@ -5,12 +5,18 @@
 #ifndef XPLAY_XSHADER_H
 #define XPLAY_XSHADER_H
 
+enum XShaderType
+{
+    XSHADER_YUV420P = 0,  //Y4 U 1 V 1
+    XSHADER_NV12 = 25,   //Y4  UV1
+    XSHADER_NV21 = 26    //Y4  VU1
+};
 
 class XShader {
 public:
-    virtual bool Init();
+    virtual bool Init(XShaderType type = XSHADER_YUV420P);
     //获取材质并映射到内存
-    virtual void GetTexture(unsigned int index, int width, int height, unsigned char *buf);
+    virtual void GetTexture(unsigned int index, int width, int height, unsigned char *buf, bool isa = false);
     virtual void Draw();
 
 protected:
