@@ -7,6 +7,9 @@
 #include "XShader.h"
 #include "IVideoView.h"
 #include "GLVideoView.h"
+#include "FFResample.h"
+#include "IAudioPlay.h"
+#include "SLAudioPlay.h"
 #include <android/native_window_jni.h>
 
 
@@ -41,6 +44,15 @@ Java_xplay_ffmpeg_MainActivity_stringFromJNI(
 
     view = new GLVideoView();
     vdecode->AddObs(view);
+
+    IResample *resample = new FFResample();
+    XParameter outPara = de->GetApara();
+    resample->Open(de->GetApara(),outPara);
+    adecode->AddObs(resample);
+
+    IAudioPlay *audioPlay = new SLAudioPlay();
+    audioPlay->StartPlay(outPara);
+    resample->AddObs(audioPlay);
 
     de->Start();
     vdecode->Start();
