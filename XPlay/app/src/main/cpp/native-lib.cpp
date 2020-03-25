@@ -1,66 +1,22 @@
 #include <jni.h>
 #include <string>
-#include "FFDemux.h"
 #include "XLog.h"
-#include "FFDecode.h"
-#include "XEGL.h"
-#include "XShader.h"
-#include "IVideoView.h"
-#include "GLVideoView.h"
-#include "FFResample.h"
-#include "IAudioPlay.h"
-#include "SLAudioPlay.h"
-#include "IPlayer.h"
 #include <android/native_window_jni.h>
+#include "FFPlayerBuilder.h"
 
+static IPlayer *player = NULL;
 
-/*class TestObs:public IObserver
-{
-public:
-    void Update(XData d) {
-        //XLOGI("TestObs Update data size is %d",d.size);
-    }
-};*/
-IVideoView *view = NULL;
 extern "C"
 JNIEXPORT
 jint JNI_OnLoad(JavaVM *vm, void *res)
 {
-    FFDecode::InitHard(vm);
+    //FFDecode::InitHard(vm);
+    FFPlayerBuilder::InitHard(vm);
     ////////////////////////////////
-    //测试用代码
-    //TestObs *tobs = new TestObs();
-   /* IDemux *de = new FFDemux();
-    //de->AddObs(tobs);
-    //de->Open("/sdcard/test.mp4");
 
-    IDecode *vdecode = new FFDecode();
-    //vdecode->Open(de->GetVPara(), false);
-
-    IDecode *adecode = new FFDecode();
-    //adecode->Open(de->GetApara());
-    de->AddObs(vdecode);
-    de->AddObs(adecode);
-
-    view = new GLVideoView();
-    vdecode->AddObs(view);
-
-    IResample *resample = new FFResample();
-    //XParameter outPara = de->GetApara();
-    //resample->Open(de->GetApara(),outPara);
-    adecode->AddObs(resample);
-
-    IAudioPlay *audioPlay = new SLAudioPlay();
-    //audioPlay->StartPlay(outPara);
-    resample->AddObs(audioPlay);
-    IPlayer::Get()->demux = de;
-    IPlayer::Get()->adecode = adecode;
-    IPlayer::Get()->vdecode = vdecode;
-    IPlayer::Get()->resample = resample;
-    IPlayer::Get()->videoView = view;
-    IPlayer::Get()->audioPlay = audioPlay;
-    IPlayer::Get()->Open("/sdcard/test.mp4");
-    IPlayer::Get()->Start();*/
+    player = FFPlayerBuilder::Get()->BuilderPlayer();
+    player->Open("/sdcard/test.mp4");
+    player->Start();
 
     //de->Start();
     //vdecode->Start();
@@ -76,8 +32,12 @@ Java_xplay_ffmpeg_MainActivity_stringFromJNI(
         JNIEnv* env,
         jobject /* this */) {
     std::string hello = "Hello from C++";
-
+    /*player = FFPlayerBuilder::Get()->BuilderPlayer();
+    player->Open("/sdcard/test.mp4");
+    player->Start();*/
+#if 0
     //测试用代码
+
     //TestObs *tobs = new TestObs();
     IDemux *de = new FFDemux();
     //de->AddObs(tobs);
@@ -110,6 +70,7 @@ Java_xplay_ffmpeg_MainActivity_stringFromJNI(
     IPlayer::Get()->audioPlay = audioPlay;
     IPlayer::Get()->Open("/sdcard/test.mp4");
     IPlayer::Get()->Start();
+#endif
     //XSleep(3000);
     //de->Stop();
     /*for(;;) {
@@ -123,7 +84,10 @@ JNIEXPORT void JNICALL
 Java_xplay_ffmpeg_XPlay_InitView(JNIEnv *env, jobject thiz, jobject surface) {
     // TODO: implement InitView()
     ANativeWindow *win = ANativeWindow_fromSurface(env, surface);
-    IPlayer::Get()->InitView(win);
+    if(player) {
+        player->InitView(win);
+    }
+    //IPlayer::Get()->InitView(win);
     //view->SetRender(win);
     //XEGL::Get()->Init(win);
     //XShader shader;
