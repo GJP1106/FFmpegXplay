@@ -11,6 +11,7 @@ extern "C" {
 #include <libavcodec/jni.h>
 }
 void FFDecode::InitHard(void *vm) {
+    XLOGE("=============================================");
     av_jni_set_java_vm(vm, 0);
 }
 bool FFDecode::Open(XParameter para, bool isHard)
