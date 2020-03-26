@@ -18,6 +18,8 @@ Java_xplay_ffmpeg_MainActivity_stringFromJNI(
         JNIEnv* env,
         jobject /* this */) {
     std::string hello = "Hello from C++";
+    //IPlayerPorxy::Get()->Open("/sdcard/test.mp4");
+    //IPlayerPorxy::Get()->Start();
     return env->NewStringUTF(hello.c_str());
 }
 extern "C"
