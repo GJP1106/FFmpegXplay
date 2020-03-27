@@ -11,6 +11,7 @@ jint JNI_OnLoad(JavaVM *vm, void *res)
     IPlayerPorxy::Get()->Init(vm);
     IPlayerPorxy::Get()->Open("/sdcard/test.mp4");
     IPlayerPorxy::Get()->Start();
+
     return JNI_VERSION_1_6;
 }
 extern "C" JNIEXPORT jstring JNICALL
