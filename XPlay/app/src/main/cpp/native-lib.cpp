@@ -9,19 +9,10 @@ JNIEXPORT
 jint JNI_OnLoad(JavaVM *vm, void *res)
 {
     IPlayerPorxy::Get()->Init(vm);
-    IPlayerPorxy::Get()->Open("/sdcard/test.mp4");
-    IPlayerPorxy::Get()->Start();
+    /*IPlayerPorxy::Get()->Open("/sdcard/test.mp4");
+    IPlayerPorxy::Get()->Start();*/
 
     return JNI_VERSION_1_6;
-}
-extern "C" JNIEXPORT jstring JNICALL
-Java_xplay_ffmpeg_MainActivity_stringFromJNI(
-        JNIEnv* env,
-        jobject /* this */) {
-    std::string hello = "Hello from C++";
-    //IPlayerPorxy::Get()->Open("/sdcard/test.mp4");
-    //IPlayerPorxy::Get()->Start();
-    return env->NewStringUTF(hello.c_str());
 }
 extern "C"
 JNIEXPORT void JNICALL
@@ -29,4 +20,12 @@ Java_xplay_ffmpeg_XPlay_InitView(JNIEnv *env, jobject thiz, jobject surface) {
     // TODO: implement InitView()
     ANativeWindow *win = ANativeWindow_fromSurface(env, surface);
     IPlayerPorxy::Get()->InitView(win);
+}extern "C"
+JNIEXPORT void JNICALL
+Java_xplay_ffmpeg_OpenUrl_Open(JNIEnv *env, jobject thiz, jstring url) {
+    // TODO: implement Open()
+    const char *openUrl = env->GetStringUTFChars(url, 0);
+    IPlayerPorxy::Get()->Open(openUrl);
+    IPlayerPorxy::Get()->Start();
+    env->ReleaseStringUTFChars(url,openUrl);
 }

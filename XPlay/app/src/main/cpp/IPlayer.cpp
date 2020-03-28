@@ -105,9 +105,9 @@ bool IPlayer::Open(const char *path)
         //return false;
     }
     //重采样 有可能不需要，解码后或者解封后可能是直接能播放的数据
-    if(outPara.sample_rate <= 0) {
+    //if(outPara.sample_rate <= 0) {
         outPara = demux->GetApara();
-    }
+    //}
     if(!resample || !resample->Open(demux->GetApara(), outPara)) {
         XLOGE("resample->Open %s failed", path);
     }
@@ -142,6 +142,7 @@ bool IPlayer::Start()
 
 void IPlayer::InitView(void *win) {
     if(videoView) {
+        videoView->Close();
         videoView->SetRender(win);
     }
 }
