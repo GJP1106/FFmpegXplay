@@ -15,6 +15,10 @@ void IAudioPlay::Clear() {
 XData IAudioPlay::GetData() {
     XData d;
     while(!isExit) {
+        if(IsPause()) {
+            XSleep(2);
+            continue;
+        }
         framesMutex.lock();
         if(!frames.empty()) {
             //有数据返回

@@ -19,9 +19,12 @@ public:
 
     virtual bool Open(const char *path);
     virtual bool Seek(double pos);
+    virtual void SetPause(bool isP);
     virtual void Close();
     virtual bool Start();
     virtual void InitView(void *win);
+
+    virtual bool IsPause();
 
     //获取当前的播放进度0.0 -- 1.0
     virtual double PlayPos();

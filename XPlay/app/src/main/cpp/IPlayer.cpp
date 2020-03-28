@@ -100,10 +100,30 @@ double IPlayer::PlayPos() {
     return pos;
 }
 
+void IPlayer::SetPause(bool isP)
+{
+    mux.lock();
+    XThread::SetPause(isP);
+    if(demux) {
+        demux->SetPause(isP);
+    }
+    if(vdecode) {
+        vdecode->SetPause(isP);
+    }
+    if(adecode) {
+        adecode->SetPause(isP);
+    }
+    if(audioPlay) {
+        audioPlay->SetPause(isP);
+    }
+    mux.unlock();
+}
+
 bool IPlayer::Seek(double pos)
 {
     bool re = false;
     mux.lock();
+    //暂停所有线程
     if(demux) {
         re = demux->Seek(pos);
     }
