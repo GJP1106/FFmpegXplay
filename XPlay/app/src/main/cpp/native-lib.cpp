@@ -27,10 +27,16 @@ Java_xplay_ffmpeg_OpenUrl_Open(JNIEnv *env, jobject thiz, jstring url) {
     const char *openUrl = env->GetStringUTFChars(url, 0);
     IPlayerPorxy::Get()->Open(openUrl);
     IPlayerPorxy::Get()->Start();
+    //IPlayerPorxy::Get()->Seek(0.5);
     env->ReleaseStringUTFChars(url,openUrl);
 }extern "C"
 JNIEXPORT jdouble JNICALL
 Java_xplay_ffmpeg_MainActivity_PlayPos(JNIEnv *env, jobject thiz) {
     // TODO: implement PlayPos()
     return IPlayerPorxy::Get()->PlayPos();
+}extern "C"
+JNIEXPORT void JNICALL
+Java_xplay_ffmpeg_MainActivity_Seek(JNIEnv *env, jobject thiz, jdouble pos) {
+    // TODO: implement Seek()
+    IPlayerPorxy::Get()->Seek(pos);
 }

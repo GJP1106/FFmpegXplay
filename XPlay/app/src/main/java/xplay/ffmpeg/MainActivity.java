@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements Runnable,SeekBar.
         }
     }
     public native double PlayPos();
-    //public native void Seek(double pos);
+    public native void Seek(double pos);
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements Runnable,SeekBar.
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        //Seek( (double)seekBar.getProgress()/(double)seekBar.getMax() );
+        Seek( (double)seekBar.getProgress()/(double)seekBar.getMax() );
     }
     //add Android9.0 读写权限问题
     @Override
