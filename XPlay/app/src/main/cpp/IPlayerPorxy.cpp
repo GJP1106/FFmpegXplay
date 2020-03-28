@@ -26,11 +26,24 @@ void IPlayerPorxy::Init(void *vm)
     mux.unlock();
 }
 
+//获取当前的播放进度0.0 -- 1.0
+double IPlayerPorxy::PlayPos()
+{
+    double pos = 0.0;
+    mux.lock();
+    if(player) {
+        pos = player->PlayPos();
+    }
+    mux.unlock();
+    return pos;
+}
+
 bool IPlayerPorxy::Open(const char *path)
 {
     bool re = false;
     mux.lock();
     if(player) {
+        player->isHardDecode = isHardDecode;
         re = player->Open(path);
     }
     mux.unlock();

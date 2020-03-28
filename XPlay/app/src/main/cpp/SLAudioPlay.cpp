@@ -53,7 +53,9 @@ void SLAudioPlay::PlayCall(void *bufq) {
     }
     memcpy(buf,d.data,d.size);
     mux.lock();
-    (*bf)->Enqueue(bf,buf,d.size);
+    if(pcmQue && (*pcmQue)) {
+        (*pcmQue)->Enqueue(pcmQue,buf,d.size);
+    }
     mux.unlock();
     d.Drop();
 }
@@ -89,6 +91,12 @@ void SLAudioPlay::Close()
     if(engineSL && (*engineSL)) {
         (*engineSL)->Destroy(engineSL);
     }
+    engineSL = NULL;
+    eng = NULL;
+    mix = NULL;
+    player = NULL;
+    iplayer = NULL;
+    pcmQue = NULL;
     mux.unlock();
 }
 bool SLAudioPlay::StartPlay(XParameter out) {

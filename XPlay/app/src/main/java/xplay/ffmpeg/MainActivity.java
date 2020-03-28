@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements Runnable,SeekBar.
     }
     private Button bt;
     private SeekBar seek;
+    private Thread th;
     //add Android9.0 读写权限问题
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -65,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements Runnable,SeekBar.
                 Log.e("XPlay ","open button click3!");
             }
         });
+        //启动播放进度线程
+        th = new Thread(this);
+        th.start();
         //add Android9.0 读写权限问题
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -78,15 +82,15 @@ public class MainActivity extends AppCompatActivity implements Runnable,SeekBar.
     public void run() {
         for(;;)
         {
-            /*seek.setProgress((int)(PlayPos()*1000));
+            seek.setProgress((int)(PlayPos()*1000));
             try {
                 Thread.sleep( 40 );
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }*/
+            }
         }
     }
-    //public native double PlayPos();
+    public native double PlayPos();
     //public native void Seek(double pos);
 
     @Override

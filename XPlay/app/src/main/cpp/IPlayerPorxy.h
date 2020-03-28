@@ -22,6 +22,9 @@ public:
     virtual bool Start();
     virtual void InitView(void *win);
 
+    //获取当前的播放进度0.0 -- 1.0
+    virtual double PlayPos();
+
 protected:
     IPlayerPorxy() {}
     IPlayer *player = 0;

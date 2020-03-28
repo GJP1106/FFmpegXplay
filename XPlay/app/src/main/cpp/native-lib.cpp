@@ -28,4 +28,9 @@ Java_xplay_ffmpeg_OpenUrl_Open(JNIEnv *env, jobject thiz, jstring url) {
     IPlayerPorxy::Get()->Open(openUrl);
     IPlayerPorxy::Get()->Start();
     env->ReleaseStringUTFChars(url,openUrl);
+}extern "C"
+JNIEXPORT jdouble JNICALL
+Java_xplay_ffmpeg_MainActivity_PlayPos(JNIEnv *env, jobject thiz) {
+    // TODO: implement PlayPos()
+    return IPlayerPorxy::Get()->PlayPos();
 }
