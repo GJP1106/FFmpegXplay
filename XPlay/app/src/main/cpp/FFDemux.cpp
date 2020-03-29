@@ -126,7 +126,10 @@ XParameter FFDemux::GetApara() {
 //读取一帧数据，数据由调用者清理
 XData FFDemux::Read() {
     mux.lock();
-    if(!ic) return XData();
+    if(!ic) {
+        mux.unlock();
+        return XData();
+    }
     XData d;
     AVPacket *pkt = av_packet_alloc();
     int re = av_read_frame(ic,pkt);
@@ -143,8 +146,8 @@ XData FFDemux::Read() {
     }else if(pkt->stream_index == videoStream) {
         d.isAudio = false;
     }else{
-        av_packet_free(&pkt);
         mux.unlock();
+        av_packet_free(&pkt);
         return XData();
     }
     //转换pts
